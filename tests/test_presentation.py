@@ -13,6 +13,7 @@ class PresentationTests(unittest.TestCase):
             '01_QuantEcon_Nashpy_Interactive.ipynb': 176,
             '02_Gambit_PyGambit_Interactive.ipynb': 302,
             '03_School_Choice_Three_Perspectives.ipynb': 173,
+            '04_Auction_Design_Three_Lenses.ipynb': 290,
         }
         for path in ROOT.glob('notebooks/*/*.ipynb'):
             notebook = nbformat.read(path, as_version=4)
@@ -51,7 +52,7 @@ class PresentationTests(unittest.TestCase):
         self.assertGreaterEqual(sum('image/png' in o.get('data',{}) for c in nb.cells for o in c.get('outputs',[])),5)
 
     def test_teaching_pages_have_tables_figures_and_no_python_blocks(self):
-        for name in ['01_Matrix_Games_Demo.md','02_Trees_and_Information_Demo.md']:
+        for name in ['01_Matrix_Games_Demo.md','02_Trees_and_Information_Demo.md','04_Auction_Design_Demo.md']:
             text=(ROOT/'docs'/name).read_text()
             self.assertNotIn('```python',text)
             self.assertIn('$$',text)

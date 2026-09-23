@@ -21,3 +21,13 @@ The AI Economist case is grounded in the Science Advances article (DOI `10.1126/
 School-choice definitions and claims are anchored in Gale and Shapley (1962), Abdulkadiroğlu and Sönmez (2003), Abdulkadiroğlu et al. (2005), and the official 2012 Prize materials. The supplied simulation demonstrates one unstable Boston outcome and one profitable Boston misreport. Those counterexamples can falsify universal properties, but the notebook explicitly distinguishes them from a proof of deferred acceptance's general properties.
 
 The visual system takes high-level cues from the instructor's three Hugging Face Spaces—dark scientific canvas, cyan/violet/amber semantic accents, progressive scenes, glass panels, and restrained motion. No source code, branded illustration, or 3D asset was copied. The released site uses original HTML, CSS, JavaScript, and inline SVG; it has no external runtime dependency or analytics call.
+
+## Week 5 auction-design extension · 2026-09-22
+
+The Week 5 slide specification and the supplied two-page *Strategic Thinking and Auction Application Map* determine the progression: classify timing and information; connect the representation to NE/BNE/SPNE/PBE or DSIC; compare first-price, second-price, English, Dutch, and all-pay formats; verify revenue equivalence; then audit objectives and benchmark failures.
+
+The auction engine and Notebook 04 are instructor-created, transparent one-item examples. The first-price, second-price, English, Dutch, and all-pay benchmark claims are anchored in Vickrey (1961), Riley and Samuelson (1981), Myerson (1981), Milgrom and Weber (1982), Hillman and Riley (1989), and Krishna and Morgan (1997). The extensions are bounded with Haile (2003) for resale, Hassidim et al. (2017) for participant understanding/reporting, and Akbarpour and Li (2020) for credibility. Classroom bidding is described as exploratory behavioral evidence, not population-level causal evidence.
+
+AuctionNet is cited from the official NeurIPS 2024 Datasets and Benchmarks proceedings and its Apache-2.0 repository. It is presented as a large-scale automated-bidding frontier, not copied into the lightweight classroom environment. No AuctionNet dataset, model weight, or third-party paper figure is bundled.
+
+The browser lab uses no API, account, analytics service, or server-side persistence. The revenue-equivalence simulation uses a deterministic seed. The common-value, resale, collusion, and shill-bid cases are labeled diagnostics or counterexamples rather than full equilibrium proofs. Saved notebook tables and figures provide an execution-free fallback.

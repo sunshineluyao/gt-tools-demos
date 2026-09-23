@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0 · 2026-09-22 · Auction Design Laboratory
+
+- Added an executed, fully annotated Week 5 notebook connecting the Week 1–3 game-class map to five auction formats and their BNE, DSIC, or PBE benchmarks.
+- Added numerical first-price expected-best-response and second-price dominant-strategy checks, dynamic English/Dutch traces, and a seeded revenue-equivalence experiment.
+- Added objective diagnostics for revenue, welfare, allocative efficiency, ex-post IR, budget balance, computational complexity, loser burden, and realized unilateral regret.
+- Added bounded-behavior, risk-aversion, common-value/winner's-curse, reserve, budget, resale, collusion, and seller-credibility stress tests with explicit evidentiary boundaries.
+- Added a responsive Vercel auction module with editable bidder profiles, animated allocation, benchmark/manual bidding, Monte Carlo revenue bars, and advanced stress-test explanations.
+- Added shared JavaScript auction logic, deterministic unit tests, notebook coverage checks, mobile/desktop browser checks, a static teaching page, and source records.
+
 ## 0.4.0 · 2026-09-15 · Three-Lens Studio
 
 - Added a zero-configuration Vercel tutorial that makes Strategic Thinking, Interdisciplinary Contribution, and Mechanism Design observable.

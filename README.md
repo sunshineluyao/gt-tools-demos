@@ -17,7 +17,7 @@ Duke Kunshan University · Autumn 2026 · **Prof. Luyao Zhang**
 [![Open notebook 02 in Colab](docs/assets/colab-02.svg)](https://colab.research.google.com/github/sunshineluyao/gt-tools-demos/blob/main/notebooks/gambit_pygambit/02_Gambit_PyGambit_Interactive.ipynb)
 [![Download repository ZIP](docs/assets/download.svg)](https://github.com/sunshineluyao/gt-tools-demos/archive/refs/heads/main.zip)
 
-[Open school-choice Colab](https://colab.research.google.com/github/sunshineluyao/gt-tools-demos/blob/main/notebooks/school_choice/03_School_Choice_Three_Perspectives.ipynb) · [Deploy the Three-Lens Studio](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fsunshineluyao%2Fgt-tools-demos) · [Classroom guide](docs/Wednesday_UI_Demo.md)
+[Open auction Colab](https://colab.research.google.com/github/sunshineluyao/gt-tools-demos/blob/main/notebooks/auctions/04_Auction_Design_Three_Lenses.ipynb) · [Launch the live Three-Lens Studio](https://gt-tools-demos-sigma.vercel.app/) · [Deploy your own copy](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fsunshineluyao%2Fgt-tools-demos)
 
 </div>
 
@@ -26,7 +26,7 @@ Duke Kunshan University · Autumn 2026 · **Prof. Luyao Zhang**
 This repository is a guided learning environment for turning a research idea into observable evidence of **Strategic Thinking**, **Interdisciplinary Contribution**, and **Mechanism Design**. Students first formalize strategic interaction, then test a literature contribution, and finally compare how game theory, social choice, and mechanism design change the same problem.
 
 > [!NOTE]
-> **Release scope.** Notebooks 01 and 02 are the two core Week 3 game-theory notebooks. Notebook 03 and the Three-Lens Studio are the Week 4 transfer activities that connect those foundations to literature evaluation, school choice, and the team capstone.
+> **Release scope.** Notebooks 01 and 02 are the Week 3 game-theory foundations. Notebook 03 is the Week 4 school-choice transfer. Notebook 04 and the auction module in the Three-Lens Studio are the Week 5 application: classify → solve → evaluate → stress-test → govern.
 
 ## Navigation
 
@@ -59,6 +59,7 @@ This repository is a guided learning environment for turning a research idea int
 | Learn simultaneous-move games | [Notebook 01 teaching page](docs/01_Matrix_Games_Demo.md) → [Colab 01](https://colab.research.google.com/github/sunshineluyao/gt-tools-demos/blob/main/notebooks/quantecon_nashpy/01_QuantEcon_Nashpy_Interactive.ipynb) | A payoff matrix and unilateral-deviation check |
 | Learn sequential or incomplete-information games | [Notebook 02 teaching page](docs/02_Trees_and_Information_Demo.md) → [Colab 02](https://colab.research.google.com/github/sunshineluyao/gt-tools-demos/blob/main/notebooks/gambit_pygambit/02_Gambit_PyGambit_Interactive.ipynb) | A game tree, information structure, and credibility or type-incentive check |
 | Compare social goals and allocation rules | [School-choice Colab 03](https://colab.research.google.com/github/sunshineluyao/gt-tools-demos/blob/main/notebooks/school_choice/03_School_Choice_Three_Perspectives.ipynb) | Boston and deferred-acceptance traces, plus stability and manipulation analysis |
+| Apply game theory to auctions | [Auction teaching page](docs/04_Auction_Design_Demo.md) → [Colab 04](https://colab.research.google.com/github/sunshineluyao/gt-tools-demos/blob/main/notebooks/auctions/04_Auction_Design_Three_Lenses.ipynb) | Format classification, equilibrium checks, revenue equivalence, objective dashboard, and institutional stress tests |
 | Teach the laboratory | [Classroom guide](docs/Wednesday_UI_Demo.md) and [ready-to-open games](examples/) | A paced demonstration, peer challenge, and exit ticket |
 | Run or deploy the website | [Local/Vercel instructions](#local-and-vercel) | A tested static build in `dist/` |
 
@@ -90,6 +91,8 @@ The static browser tutorial converts the learning path into three practical modu
 | **A · Strategic Thinking** | Enter players, strategies, timing, and information; construct the smallest intuitive example | Rejects fewer than two players or two strategies and guides the student toward Nash, Selten, or Harsanyi |
 | **B · Interdisciplinary Contribution** | Draft the literature-gap pivot and compare the closest papers dimension by dimension | Requires **However** or **Yet**, generates a counterexample-search prompt, and labels AI suggestions **UNVERIFIED** until a human checks the sources |
 | **C · Three Perspectives** | Compare Boston and student-proposing deferred acceptance through three disciplinary personas | Animates proposal → decision → continuation, names who exits or remains active, and checks manipulation and blocking pairs |
+
+The Week 5 **Auction Design Lab** is the fourth applied module. It maps first-price, second-price, English, Dutch, and all-pay auctions to BNE, DSIC, or PBE; executes allocation and payment rules; visualizes utility and objective metrics; verifies revenue equivalence with seeded simulation; and stress-tests bounded behavior, risk, common values, resale, collusion, and seller credibility.
 
 ### School-choice mechanism at a glance
 
@@ -128,6 +131,7 @@ The studio stores no form data, uses no API key, and sends no student response t
 | **01** | [QuantEcon + Nashpy](notebooks/quantecon_nashpy/01_QuantEcon_Nashpy_Interactive.ipynb) | Static, complete-information 2×2 games | Change any of the eight payoffs or select a preset | Both tools agree; unilateral deviation gains are tested |
 | **02** | [Gambit / PyGambit](notebooks/gambit_pygambit/02_Gambit_PyGambit_Interactive.ipynb) | Matrix → sequential entry → private-cost entry | Change threat credibility, entry payoffs, prior, or costs | Pure Nash, backward-induction SPNE, and type-conditional Bayesian incentives are checked |
 | **03** | [School choice](notebooks/school_choice/03_School_Choice_Three_Perspectives.ipynb) | Boston and Gale–Shapley student-proposing deferred acceptance | Move one school to the top of one student's ranking, then switch mechanisms | Proposal/decision/continuation trace, blocking pairs, and a Boston manipulation counterexample |
+| **04** | [Auction design](notebooks/auctions/04_Auction_Design_Three_Lenses.ipynb) | Five auction formats from BNE/DSIC/PBE to credible deployment | Change one assumption: risk, behavior, common value, reserve, budget, resale, collusion, or trust | Expected-best-response, dominant-strategy, revenue-equivalence, objective, and institutional checks |
 
 ### Run in Google Colab
 
@@ -142,6 +146,7 @@ Direct Colab links (check student access after uploading the repository):
 - [01_QuantEcon_Nashpy_Interactive](https://colab.research.google.com/github/sunshineluyao/gt-tools-demos/blob/main/notebooks/quantecon_nashpy/01_QuantEcon_Nashpy_Interactive.ipynb)
 - [02_Gambit_PyGambit_Interactive](https://colab.research.google.com/github/sunshineluyao/gt-tools-demos/blob/main/notebooks/gambit_pygambit/02_Gambit_PyGambit_Interactive.ipynb)
 - [03_School_Choice_Three_Perspectives](https://colab.research.google.com/github/sunshineluyao/gt-tools-demos/blob/main/notebooks/school_choice/03_School_Choice_Three_Perspectives.ipynb)
+- [04_Auction_Design_Three_Lenses](https://colab.research.google.com/github/sunshineluyao/gt-tools-demos/blob/main/notebooks/auctions/04_Auction_Design_Three_Lenses.ipynb)
 <!-- COLAB_LINKS_END -->
 
 [Back to top](#top)
@@ -290,7 +295,7 @@ npm run build
 python -m http.server 4173 --directory dist
 ```
 
-Open `http://localhost:4173`. The build copies the reviewed files from `web/` into `dist/`.
+Open `http://localhost:4173`. The build copies the reviewed files from `web/` into `dist/`. The live deployment is [gt-tools-demos-sigma.vercel.app](https://gt-tools-demos-sigma.vercel.app/); it updates after the verified main-branch commit is pushed.
 
 For Vercel Git import, keep the repository root as `./`, select **Other**, use `npm run build`, and publish `dist/`. The repository’s [`vercel.json`](vercel.json) already provides these settings. See the [step-by-step deployment and browser preflight](docs/DEPLOY_VERCEL.md).
 
@@ -315,7 +320,7 @@ Linux requires a C++ compiler for PyGambit. See [`docs/SETUP.md`](docs/SETUP.md)
 
 | Layer | What is checked | Evidence |
 |---|---|---|
-| Economic and algorithmic models | Payoff orientation, mixed equilibrium, off-path credibility, ties, type-specific incentives, matching stability, and Boston manipulation | [`outputs/model_tests.txt`](outputs/model_tests.txt) and [`outputs/validation.json`](outputs/validation.json) |
+| Economic and algorithmic models | Payoff orientation, off-path credibility, type incentives, auction allocation/payments, revenue equivalence, winner's curse, resale, collusion, seller credibility, matching stability, and Boston manipulation | [`outputs/model_tests.txt`](outputs/model_tests.txt) and [`outputs/validation.json`](outputs/validation.json) |
 | Notebooks | Complete execution, saved outputs, valid notebook structure, and saved matching animations | [`outputs/`](outputs/) execution records |
 | Markdown and mathematics | Strict KaTeX typesetting, Mermaid parsing, and protection against GitHub-sensitive superscript syntax | [`outputs/markdown_render_checks.json`](outputs/markdown_render_checks.json) |
 | Browser interface | Scripted interactions, keyboard-relevant controls, and desktop/mobile overflow checks | [`outputs/browser_render_checks.json`](outputs/browser_render_checks.json) |
@@ -330,8 +335,8 @@ These records support the released examples; they do not certify every student-c
 
 | Path | Purpose |
 |---|---|
-| [`web/`](web/) | Three-Lens Studio source: strategic triage, contribution stress test, and school-choice matching lab |
-| [`notebooks/`](notebooks/) | Two Week 3 core notebooks, one Week 4 transfer notebook, and reserved future-tool directories |
+| [`web/`](web/) | Three-Lens Studio source: strategic triage, auction-design lab, contribution stress test, and school-choice matching lab |
+| [`notebooks/`](notebooks/) | Two Week 3 foundations, the Week 4 school-choice transfer, and the Week 5 auction-design notebook |
 | [`docs/`](docs/) | Read-only teaching pages, classroom guide, setup instructions, and Vercel guide |
 | [`examples/`](examples/) | Gambit-ready `.nfg` and `.efg` files |
 | [`references/`](references/) | Bibliography, source-verification notes, and upstream license texts |
@@ -355,6 +360,8 @@ Future-tool folders remain empty until their teaching week. A new notebook shoul
 | Nash | John F. Nash (1950), *Equilibrium points in n-person games*. [DOI](https://doi.org/10.1073/pnas.36.1.48) |
 | Selten | Reinhard Selten (1965), *Spieltheoretische Behandlung eines Oligopolmodells mit Nachfrageträgheit: Teil I*. [JSTOR](https://www.jstor.org/stable/40748884) |
 | Harsanyi | John C. Harsanyi (1967), *Games with incomplete information played by “Bayesian” players, I*. [DOI](https://doi.org/10.1287/mnsc.14.3.159) |
+| Auction theory | William Vickrey (1961), *Counterspeculation, auctions, and competitive sealed tenders*. [DOI](https://doi.org/10.1111/j.1540-6261.1961.tb02789.x) · Roger Myerson (1981), *Optimal auction design*. [DOI](https://doi.org/10.1287/moor.6.1.58) · Paul Milgrom and Robert Weber (1982), *A theory of auctions and competitive bidding*. [DOI](https://doi.org/10.2307/1911865) |
+| Credibility and frontier systems | Mohammad Akbarpour and Shengwu Li (2020), *Credible auctions: A trilemma*. [DOI](https://doi.org/10.3982/ECTA15925) · Su et al. (2024), *AuctionNet*. [NeurIPS paper](https://proceedings.neurips.cc/paper_files/paper/2024/hash/ab9b7c23edfea0011507f7e1eae82cd2-Abstract-Datasets_and_Benchmarks_Track.html) |
 | Interdisciplinary contribution | Zheng et al. (2022), *The AI Economist*. [DOI](https://doi.org/10.1126/sciadv.abk2607) · [official archived code](https://github.com/salesforce/ai-economist) |
 | Stable matching | Gale and Shapley (1962), *College admissions and the stability of marriage*. [DOI](https://doi.org/10.2307/2312726) |
 | School-choice mechanism design | Abdulkadiroğlu and Sönmez (2003), *School choice: A mechanism design approach*. [DOI](https://doi.org/10.1257/000282803322157061) · Abdulkadiroğlu et al. (2005), *The Boston Public School Match*. [DOI](https://doi.org/10.1257/000282805774669637) |
@@ -369,6 +376,7 @@ The AI Economist is used as a worked integration exemplar, not as a uniqueness c
 | Nashpy 0.0.43 | Transparent two-player matrix-game calculations in Notebook 01 | [MIT](https://github.com/drvinceknight/Nashpy/blob/main/LICENSE) |
 | Gambit / PyGambit 16.7.0 | Strategic/extensive games, information sets, and exports in Notebook 02 | [GPL-2.0-or-later](https://github.com/gambitproject/gambit/blob/master/COPYING) |
 | Game Theory Explorer | Optional graphical classroom introduction | [GPL-3.0](https://github.com/gambitproject/gte/blob/master/COPYING) |
+| NumPy, pandas, and Matplotlib | Transparent simulation, diagnostics, and figures in Notebook 04 | [NumPy license](https://numpy.org/doc/stable/license.html) · [pandas license](https://github.com/pandas-dev/pandas/blob/main/LICENSE) · [Matplotlib license](https://matplotlib.org/stable/project/license.html) |
 
 OpenSpiel, Axelrod-Python, Mesa, PettingZoo, RLlib, and oTree folders are reserved for later teaching weeks; they are not executable additions in this release. Their authoritative sources, copied license texts, and verification notes are indexed in [`references/SOURCE_NOTES.md`](references/SOURCE_NOTES.md) and [`references/licenses/`](references/licenses/).
 

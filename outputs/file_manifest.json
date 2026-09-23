@@ -12,8 +12,8 @@
     "sha256": "82fcb727d153011c7b3661cd9e8f897fc9b47b3dae6737df7d429a17a2f2248c"
   },
   "CHANGELOG.md": {
-    "bytes": 3270,
-    "sha256": "3ced4ffdc57fa0c209cbd872961e7d1d0f811c8f10715b3b5fb650342c9efcbe"
+    "bytes": 4362,
+    "sha256": "bbbe16fb047f15410bf3b771782f48bbc26abbffcb0cbb82ed2902cce156d3ba"
   },
   "CITATION.cff": {
     "bytes": 356,
@@ -24,8 +24,8 @@
     "sha256": "a4d41795115e6a49ba4218caa8b54b5ff4351e959e3652bfb1e6b5da6907a414"
   },
   "README.md": {
-    "bytes": 24761,
-    "sha256": "96fd9b9242fbb79cdb360f286a154c85e8ea03d695a47199dac9200272e37815"
+    "bytes": 27372,
+    "sha256": "a54a7c5d8ecc4edd8436577e511c482889c572ad0fc8cbecb149b290f407daea"
   },
   "docs/01_Matrix_Games_Demo.md": {
     "bytes": 10735,
@@ -35,9 +35,13 @@
     "bytes": 15534,
     "sha256": "3add1c3c8f53e045c8365511157313128dc1ff7a3c3e6864768e5bee9f18310b"
   },
+  "docs/04_Auction_Design_Demo.md": {
+    "bytes": 5492,
+    "sha256": "1658a61d67f4f9be9fb1440205975b5f5acfd13955f54af8cb6aa399a60a2f2a"
+  },
   "docs/DEPLOY_VERCEL.md": {
-    "bytes": 1931,
-    "sha256": "2c48e167b1b38cc6b35af849d3087a6d03177eede699d1bfc9805f11d3cb5ec3"
+    "bytes": 2384,
+    "sha256": "2acf1030876bb544e0b6eb294c1e19de2c15d1410e6e7ce4cabe28fec25d19a0"
   },
   "docs/SETUP.md": {
     "bytes": 4019,
@@ -155,37 +159,9 @@
     "bytes": 184,
     "sha256": "cc2847b7044a2138ae729fcc2d36e29b98da0f2b003cc49b1a82510e7a10feb5"
   },
-  "game_exports/bayesian_baseline.efg": {
-    "bytes": 669,
-    "sha256": "1cde4495384e82538069381c900f12e4ed21ad7b420e40c75634f369b9484cbf"
-  },
-  "game_exports/bayesian_current.efg": {
-    "bytes": 671,
-    "sha256": "6681450c8c6b6937d74d8330f810e6a00bc0d6cdcfda8f4d1daf52d065233dd4"
-  },
-  "game_exports/bayesian_high_firm1_cost.efg": {
-    "bytes": 671,
-    "sha256": "6681450c8c6b6937d74d8330f810e6a00bc0d6cdcfda8f4d1daf52d065233dd4"
-  },
-  "game_exports/bayesian_prior_08.efg": {
-    "bytes": 669,
-    "sha256": "e2964523e10f51dcd5a77c3d6f409be511e5606011cc4b3fd33c18cef785837b"
-  },
-  "game_exports/entry_baseline.efg": {
-    "bytes": 227,
-    "sha256": "f21967e1e9a3a33c6b7541374c55d302ea80c1b2039fd96bc8f36fd66aea45f7"
-  },
-  "game_exports/entry_credible_threat.efg": {
-    "bytes": 226,
-    "sha256": "5576503840b2e42aab9d84c7e607bf233e618a6572d5c19a4c37f459eda86ab9"
-  },
-  "game_exports/entry_current.efg": {
-    "bytes": 226,
-    "sha256": "5576503840b2e42aab9d84c7e607bf233e618a6572d5c19a4c37f459eda86ab9"
-  },
-  "game_exports/prisoners_dilemma.nfg": {
-    "bytes": 184,
-    "sha256": "cc2847b7044a2138ae729fcc2d36e29b98da0f2b003cc49b1a82510e7a10feb5"
+  "notebooks/auctions/04_Auction_Design_Three_Lenses.ipynb": {
+    "bytes": 349147,
+    "sha256": "224c7fd69c997a2096a90fda1f18bd079f2d56f771459abd2eeda74022df522a"
   },
   "notebooks/axelrod/.gitkeep": {
     "bytes": 0,
@@ -240,12 +216,12 @@
     "sha256": "39b7ec3fa4677137a49a9eb73636f4e189c6dbc88cd647e8b87ab827be56b048"
   },
   "outputs/browser_render_checks.json": {
-    "bytes": 1581,
-    "sha256": "a3451a1dc3af40997e76de125d27a7dc902c1f0e5833cba023d08cf3f6ce638b"
+    "bytes": 1810,
+    "sha256": "decaa0fdeaa173ff7bf7b0c12788aba584541f76909006faf62914fe4b90a46f"
   },
   "outputs/markdown_render_checks.json": {
-    "bytes": 238,
-    "sha256": "ad4f038abae68884d6d1aa720bcd6c4a8cfc6fbd4c9b3ffe2bb92e7a86fa249a"
+    "bytes": 239,
+    "sha256": "29b6a9ad85186a254f3d6f4e0aef2caf9215c4cddbb1651ecbb200bc64c6a889"
   },
   "outputs/model_tests.txt": {
     "bytes": 1222,
@@ -265,11 +241,11 @@
   },
   "package.json": {
     "bytes": 438,
-    "sha256": "20d50b198554d5b2ed6ce2179e520773b430a8dc93fc0444339d40318e123f09"
+    "sha256": "73a2df079dfc806091deeab08fda5813a4e387b21974c35b015892633f10c6b9"
   },
   "references/SOURCE_NOTES.md": {
-    "bytes": 3928,
-    "sha256": "c8a249529b8fbcbe61438f4841eded850a30af7b1b808ef7e03e75d3c64467db"
+    "bytes": 5610,
+    "sha256": "542708edfe3a8ec054cb4446d92c4fa55bf15f87e471407826dc166ad9e28398"
   },
   "references/licenses/axelrod_LICENSE.txt": {
     "bytes": 1178,
@@ -312,8 +288,8 @@
     "sha256": "cc68f9a408c8edf33c900f645846a7d8388a23e4b92a4a9fce7499c372b2acc0"
   },
   "references/references.bib": {
-    "bytes": 4375,
-    "sha256": "8913330dc5ad3113166cedce1aa793637c11133f7038039694cbc6860e7ed98d"
+    "bytes": 6987,
+    "sha256": "a2dd85196f18edf40e69c0b81cf89088ad6a319876a8dfb8e3f21f74b77538dd"
   },
   "requirements-dev.txt": {
     "bytes": 70,
@@ -322,6 +298,10 @@
   "requirements.txt": {
     "bytes": 268,
     "sha256": "023ae346b855bc0d86fb62090cc3e723d5e8148548804545d6fdc6bfcb1fc26b"
+  },
+  "scripts/build_auction_notebook.py": {
+    "bytes": 43262,
+    "sha256": "4f15ad3bd11f4c11ce403a4a2902e3cfdedada2b7f29ed6d0b02feb0809ebe90"
   },
   "scripts/build_file_manifest.py": {
     "bytes": 977,
@@ -336,12 +316,12 @@
     "sha256": "af7ff7a9a94986c06ae4cd84981402d813b673cb5d57ee08aff230beda029d6a"
   },
   "scripts/build_web.mjs": {
-    "bytes": 954,
-    "sha256": "82ac736338713d5169942eb8326b76667cf3b0a39026d14c5b745011bb08e870"
+    "bytes": 1006,
+    "sha256": "4f8bc91a3a7614ce15b24d54ec45dee6f2ea1de15f29460520daacda499f7148"
   },
   "scripts/check_browser.mjs": {
-    "bytes": 11545,
-    "sha256": "e1d178b1b990bb51b27e79ff28ab135372214c44a2f47e7ee79d16469b6f3605"
+    "bytes": 13978,
+    "sha256": "e03138d2c7a9b67af2cfdfa314c49fc1f16f24807d36f9768ad686b1e5613f7b"
   },
   "scripts/check_markdown.mjs": {
     "bytes": 2654,
@@ -360,20 +340,20 @@
     "sha256": "c002b27f0cd1960a9bbc16daca4c756e226e55d607d55c9502b97959f1e12949"
   },
   "scripts/test_web_logic.mjs": {
-    "bytes": 3391,
-    "sha256": "4eb2fe429cf7bf994e0dcbeee79fc094b97f1eeed991cc10b0e5e789255be979"
+    "bytes": 5925,
+    "sha256": "5307c7adb11fc2d7de589c7ea2bb86db2cc4a87b8547bdccf09a755149b405be"
   },
   "tests/test_examples.py": {
     "bytes": 11050,
     "sha256": "90e1c18d89415ae60435e24bfe585a17556f3b1af0e25f3b150a72020ae25f92"
   },
   "tests/test_presentation.py": {
-    "bytes": 4966,
-    "sha256": "ca1c42114f85751bc26d3232652e117118a9f5c43b8cdd95b0aa787a128823f6"
+    "bytes": 5051,
+    "sha256": "805db0868b1199eecda0f13f3881523bbe3399e1dfd3f20a7c7e14cd32ebb8b9"
   },
   "tests/test_three_lens.py": {
-    "bytes": 5866,
-    "sha256": "c046773f8ee11be654a04cca4fa81e96cae2b609e15e758995224fc6f4ad4d16"
+    "bytes": 7247,
+    "sha256": "8a3f4400d8f49697752aa4054b92f3d4c92d4689e1b98e6666aff8f76743a0ba"
   },
   "validation/README.md": {
     "bytes": 749,
@@ -392,19 +372,23 @@
     "sha256": "6fcd5210ce31aa4e8baf232a60b4c5d755b40bd33d22348431a77ad3dfebfe4b"
   },
   "web/app.js": {
-    "bytes": 25625,
-    "sha256": "a86082573cfde456cce721783fac0c6a30d07464d490f224ea11ef68def4ccd7"
+    "bytes": 40608,
+    "sha256": "87479427a584105b80fc55f75204f5c510186dc47fbf8d872503d8bdeaa4d5a4"
+  },
+  "web/auction-logic.js": {
+    "bytes": 16492,
+    "sha256": "e958484bd9fb6801ef13e07dd5d439f69b101e52655bdf3f416c80a7aa1e6c88"
   },
   "web/index.html": {
-    "bytes": 35407,
-    "sha256": "2e61e83299e3e8138e98861bf18406b25d68078cf0ba5de5d9b5466a66b4317b"
+    "bytes": 45828,
+    "sha256": "ef90ad7769e46a23e0674edc5a1d975df053b21fdbce1b4023cbacf983634884"
   },
   "web/logic.js": {
     "bytes": 16739,
     "sha256": "edeabd05fe5e5e7c3c9cae9b4f770a93c38c223628e18dd7d0df4206b73090ea"
   },
   "web/styles.css": {
-    "bytes": 43185,
-    "sha256": "6f3854db8df70cbdd46fff61c3d160a46f6537e97094b6961c6f006e481a7167"
+    "bytes": 55905,
+    "sha256": "cc59eca0b651c896992f9d6a5edeb361ee79147d716c3f16b9a6e55675292556"
   }
 }

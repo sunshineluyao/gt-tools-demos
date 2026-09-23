@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="COMSCI/ECON 206 Three-Lens Studio: diagnose a strategic model, stress-test an interdisciplinary contribution, and compare school-choice mechanisms.">
+  <meta name="description" content="COMSCI/ECON 206 Three-Lens Studio: diagnose a strategic model, solve and stress-test auctions, evaluate an interdisciplinary contribution, and compare allocation mechanisms.">
   <meta name="theme-color" content="#071326">
   <title>Three-Lens Studio · COMSCI/ECON 206</title>
   <link rel="stylesheet" href="./styles.css">
@@ -20,8 +20,9 @@
     </a>
     <nav aria-label="Tutorial sections">
       <a href="#strategic">01 Strategic</a>
-      <a href="#contribution">02 Contribution</a>
-      <a href="#personas">03 Mechanisms</a>
+      <a href="#auctions">02 Auctions</a>
+      <a href="#contribution">03 Contribution</a>
+      <a href="#personas">04 Mechanisms</a>
     </nav>
     <div class="header-actions"><button id="motion-toggle" class="motion-button" type="button" aria-pressed="false">Pause motion</button><a class="ghost-button" href="https://github.com/sunshineluyao/gt-tools-demos" target="_blank" rel="noreferrer">GitHub ↗</a></div>
   </header>
@@ -176,9 +177,115 @@
       </article>
     </section>
 
+    <section class="chapter auction-chapter" id="auctions">
+      <header class="chapter-heading">
+        <div><span class="chapter-number green">02</span><span class="chapter-kicker green-text">APPLY + AUDIT</span></div>
+        <div><p class="eyebrow green-text">Auctions and Digital Markets</p><h2>When rules change, what changes with them?</h2><p>Classify the game before solving it. Then compare strategic incentives, allocation, revenue, welfare, participation burdens, and the credibility of the institution that executes the rule.</p></div>
+      </header>
+
+      <div class="auction-spine" aria-label="Auction reasoning sequence">
+        <article><span>1</span><strong>Classify</strong><small>Timing, information, representation</small></article>
+        <i aria-hidden="true">→</i>
+        <article><span>2</span><strong>Solve</strong><small>NE, BNE, SPNE, PBE, or DSIC</small></article>
+        <i aria-hidden="true">→</i>
+        <article><span>3</span><strong>Evaluate</strong><small>Revenue, efficiency, fairness, participation</small></article>
+        <i aria-hidden="true">→</i>
+        <article><span>4</span><strong>Govern</strong><small>Behavior, collusion, credibility, appeal</small></article>
+      </div>
+
+      <article class="panel auction-map">
+        <header><div><div class="panel-label">GAME CLASS → SOLUTION CONCEPT</div><h3>Five formats, one classification discipline</h3></div><p>Select a format to expose its timing, information structure, representation, equilibrium concept, rule, and benchmark strategy.</p></header>
+        <div class="auction-format-tabs" role="group" aria-label="Choose an auction format">
+          <button type="button" data-auction-format="first-price" aria-pressed="true"><span>FP</span>First price</button>
+          <button type="button" data-auction-format="second-price" aria-pressed="false"><span>SP</span>Second price</button>
+          <button type="button" data-auction-format="english" aria-pressed="false"><span>EN</span>English</button>
+          <button type="button" data-auction-format="dutch" aria-pressed="false"><span>DU</span>Dutch</button>
+          <button type="button" data-auction-format="all-pay" aria-pressed="false"><span>AP</span>All pay</button>
+        </div>
+        <div id="auction-definition" class="auction-definition" aria-live="polite"></div>
+      </article>
+
+      <article class="panel auction-lab">
+        <div class="auction-control-column">
+          <div class="panel-label">COMPUTATIONAL DEMONSTRATION</div>
+          <h3>Run one profile, then interrogate it.</h3>
+          <p>Values are private types in the IPV benchmark. Bids are actions. The code applies the allocation and payment rule, computes utilities, and checks unilateral deviations while holding rival bids fixed.</p>
+          <div class="auction-control-grid">
+            <label>Format<select id="auction-format-select"><option value="first-price">First price</option><option value="second-price">Second price / Vickrey</option><option value="english">English ascending</option><option value="dutch">Dutch descending</option><option value="all-pay">All pay</option></select></label>
+            <label>Environment<select id="auction-environment"><option value="private">Independent private values</option><option value="common">Common value + noisy signals</option></select></label>
+            <label>Behavior<select id="auction-behavior"><option value="benchmark">Theoretical benchmark</option><option value="manual">Manual / observed bids</option></select></label>
+            <label>Reserve price<input id="auction-reserve" type="number" min="0" max="1.5" step="0.01" value="0"></label>
+            <label class="risk-control">Risk aversion ρ <output id="auction-risk-output" for="auction-risk">0.00</output><input id="auction-risk" type="range" min="0" max="0.9" step="0.05" value="0"></label>
+            <label>True common value<input id="auction-common-value" type="number" min="0" max="1.5" step="0.01" value="0.58" disabled></label>
+          </div>
+          <div class="auction-table-wrap">
+            <table class="auction-input-table">
+              <thead><tr><th>Bidder</th><th id="auction-value-heading">Private value vᵢ</th><th>Manual bid bᵢ</th><th>Budget cap</th></tr></thead>
+              <tbody id="auction-bidder-inputs"></tbody>
+            </table>
+          </div>
+          <div class="lab-action-row"><button id="load-auction-benchmark" class="secondary-action" type="button">Load benchmark bids</button><button id="run-auction" class="lab-action" type="button">▶ Run allocation</button></div>
+          <p class="micro-note">Risk aversion changes the illustrated first-price/Dutch symmetric benchmark. It does not claim to solve every format under every utility function. Budget caps constrain executable bids.</p>
+        </div>
+
+        <div class="auction-result-column">
+          <div class="auction-sequence" aria-label="Auction execution steps"><span>hidden values</span><i>→</i><span>submitted bids</span><i>→</i><span>rank</span><i>→</i><span>winner</span><i>→</i><span>payment</span><i>→</i><span>utilities</span></div>
+          <div id="auction-bidder-stage" class="auction-bidder-stage" aria-live="polite"></div>
+          <div id="auction-narrative" class="auction-narrative" aria-live="polite"></div>
+          <div id="auction-metrics" class="auction-metrics" aria-label="Auction objective dashboard"></div>
+          <div id="auction-equilibrium-check" class="auction-equilibrium-check" aria-live="polite"></div>
+        </div>
+      </article>
+
+      <div class="auction-objectives" aria-label="Mechanism design objectives">
+        <article><b>REVENUE</b><span>Seller receipts</span><small>Not the same as total welfare.</small></article>
+        <article><b>EFFICIENCY</b><span>Highest-value feasible use</span><small>Transfers cancel in welfare accounting.</small></article>
+        <article><b>FAIRNESS</b><span>State a criterion</span><small>Access, burden, priority, or distribution—not one universal score.</small></article>
+        <article><b>IR + BUDGET</b><span>Participation and solvency</span><small>Check utility and whether the mechanism runs a deficit.</small></article>
+        <article><b>COMPUTATION</b><span>Correctness and complexity</span><small>This one-item implementation sorts bids in O(n log n).</small></article>
+        <article><b>CREDIBILITY</b><span>Verifiable execution</span><small>Participant IC does not discipline a deviating seller.</small></article>
+      </div>
+
+      <div class="auction-analysis-grid">
+        <article class="panel revenue-panel">
+          <div class="panel-label">REVENUE EQUIVALENCE · MONTE CARLO CHECK</div>
+          <h3>Same benchmark allocation, same expected revenue</h3>
+          <p>With symmetric risk-neutral bidders, independent private values, no reserve, and identical treatment of the lowest type, the formats converge in expectation—not in every realized auction.</p>
+          <label for="revenue-bidders">Number of bidders<input id="revenue-bidders" type="range" min="2" max="8" value="4"><output id="revenue-bidders-output" for="revenue-bidders">4</output></label>
+          <button id="run-revenue-check" class="primary-button" type="button">Run 6,000 seeded auctions</button>
+          <div id="revenue-bars" class="revenue-bars" aria-live="polite"></div>
+          <p id="revenue-note" class="micro-note"></p>
+        </article>
+
+        <article class="panel stress-test-panel">
+          <div class="panel-label">BEYOND THE BENCHMARK</div>
+          <h3>Which assumption breaks first?</h3>
+          <p>Each stress test changes the game or the institution. Reclassify before importing an equilibrium result.</p>
+          <div class="stress-buttons" role="group" aria-label="Auction stress tests">
+            <button type="button" data-auction-stress="behavior" aria-pressed="true">Bounded behavior</button>
+            <button type="button" data-auction-stress="risk" aria-pressed="false">Risk aversion</button>
+            <button type="button" data-auction-stress="common" aria-pressed="false">Winner's curse</button>
+            <button type="button" data-auction-stress="resale" aria-pressed="false">Resale</button>
+            <button type="button" data-auction-stress="collusion" aria-pressed="false">Collusion</button>
+            <button type="button" data-auction-stress="credibility" aria-pressed="false">Seller credibility</button>
+          </div>
+          <div id="auction-stress-result" class="auction-stress-result" aria-live="polite"></div>
+        </article>
+      </div>
+
+      <div class="auction-three-lenses">
+        <article><b>ECONOMICS</b><h3>Predict and evaluate</h3><p>Derive a rational benchmark; compare incentives, revenue, welfare, efficiency, and participation.</p></article>
+        <article><b>COMPUTER SCIENCE</b><h3>Implement and verify</h3><p>Translate the rule into an algorithm; test invariants, edge cases, complexity, and reproducibility.</p></article>
+        <article><b>BEHAVIORAL SCIENCE</b><h3>Observe and revise</h3><p>Compare actual bids with the benchmark; study risk, learning, framing, comprehension, and bounded reasoning without overgeneralizing classroom evidence.</p></article>
+        <article><b>GLOBAL LEADERSHIP</b><h3>Govern and correct</h3><p>Ask who participates, who bears risk, what can be audited, how collusion is challenged, and how rules are revised across contexts.</p></article>
+      </div>
+
+      <div class="auction-resource-line"><p><strong>Research frontier:</strong> scale this transparent one-item laboratory toward repeated automated bidding only after its assumptions and tests are understood.</p><a href="https://colab.research.google.com/github/sunshineluyao/gt-tools-demos/blob/main/notebooks/auctions/04_Auction_Design_Three_Lenses.ipynb" target="_blank" rel="noreferrer">Open the fully annotated auction notebook in Colab ↗</a></div>
+    </section>
+
     <section class="chapter" id="contribution">
       <header class="chapter-heading">
-        <div><span class="chapter-number violet">02</span><span class="chapter-kicker violet-text">STRESS-TEST</span></div>
+        <div><span class="chapter-number violet">03</span><span class="chapter-kicker violet-text">STRESS-TEST</span></div>
         <div><p class="eyebrow violet-text">Interdisciplinary Contribution</p><h2>Where, exactly, does your work change knowledge?</h2><p>A strong project does not place economics, computer science, and behavioral science beside one another. It makes their evidence streams change one shared claim.</p></div>
       </header>
 
@@ -250,7 +357,7 @@
 
     <section class="chapter" id="personas">
       <header class="chapter-heading">
-        <div><span class="chapter-number amber">03</span><span class="chapter-kicker amber-text">REDESIGN</span></div>
+        <div><span class="chapter-number amber">04</span><span class="chapter-kicker amber-text">REDESIGN</span></div>
         <div><p class="eyebrow amber-text">Three Research Personas</p><h2>One school-choice problem. Three ways of asking.</h2><p>Move from strategic interaction to social objectives to implementable rules. Then compare Boston and Gale–Shapley student-proposing deferred acceptance with the same data.</p></div>
       </header>
 
@@ -311,7 +418,7 @@
 
   <footer>
     <div><strong>THREE-LENS STUDIO</strong><span>COMSCI/ECON 206 · Computational Microeconomics</span></div>
-    <div class="footer-links"><a href="https://doi.org/10.1257/000282805774669637" target="_blank" rel="noreferrer">Boston School Match</a><a href="https://doi.org/10.1257/000282803322157061" target="_blank" rel="noreferrer">School Choice: A Mechanism Design Approach</a><a href="https://vercel.com/docs/git" target="_blank" rel="noreferrer">Vercel Git deployment</a></div>
+    <div class="footer-links"><a href="https://doi.org/10.1111/j.1540-6261.1961.tb02789.x" target="_blank" rel="noreferrer">Vickrey 1961</a><a href="https://doi.org/10.1287/moor.6.1.58" target="_blank" rel="noreferrer">Myerson 1981</a><a href="https://proceedings.neurips.cc/paper_files/paper/2024/hash/ab9b7c23edfea0011507f7e1eae82cd2-Abstract-Datasets_and_Benchmarks_Track.html" target="_blank" rel="noreferrer">AuctionNet 2024</a><a href="https://doi.org/10.1257/000282805774669637" target="_blank" rel="noreferrer">Boston School Match</a><a href="https://doi.org/10.1257/000282803322157061" target="_blank" rel="noreferrer">School Choice</a><a href="https://vercel.com/docs/git" target="_blank" rel="noreferrer">Vercel Git deployment</a></div>
     <p>Teaching examples are deliberately small. Simulation evidence illustrates mechanisms; it does not replace proofs, field evidence, or contextual judgment.</p>
   </footer>
 

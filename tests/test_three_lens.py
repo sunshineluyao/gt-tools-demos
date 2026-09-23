@@ -32,15 +32,18 @@ class ThreeLensReleaseTests(unittest.TestCase):
         parser = CollectingParser()
         parser.feed(html)
         for marker in [
-            'strategic', 'contribution', 'personas', 'game-form', 'abstract-input',
+            'strategic', 'auctions', 'contribution', 'personas', 'game-form', 'abstract-input',
             'solution-nash', 'solution-selten', 'solution-harsanyi', 'trace-nash',
             'solve-selten', 'solve-harsanyi', 'sample-harsanyi',
+            'auction-definition', 'auction-format-select', 'auction-bidder-stage',
+            'auction-metrics', 'auction-equilibrium-check', 'run-revenue-check',
+            'auction-stress-result',
             'matching-canvas', 'play-rounds', 'motion-toggle',
         ]:
             self.assertIn(marker, parser.ids)
         self.assertEqual(parser.scripts, ['./app.js'])
         self.assertEqual(parser.stylesheets, ['./styles.css'])
-        for relative in ['app.js', 'styles.css', 'logic.js']:
+        for relative in ['app.js', 'styles.css', 'logic.js', 'auction-logic.js']:
             self.assertTrue((ROOT / 'web' / relative).is_file())
 
     def test_vercel_import_is_zero_configuration(self):
@@ -99,6 +102,23 @@ class ThreeLensReleaseTests(unittest.TestCase):
         ]:
             self.assertIn(marker, source)
 
+    def test_auction_notebook_covers_theory_objectives_and_deployment_stress_tests(self):
+        notebook = json.loads((ROOT / 'notebooks/auctions/04_Auction_Design_Three_Lenses.ipynb').read_text())
+        source = '\n'.join(
+            ''.join(cell['source']) if isinstance(cell['source'], list) else cell['source']
+            for cell in notebook['cells']
+        )
+        for marker in [
+            'Nash equilibrium (NE)', 'Bayesian Nash equilibrium (BNE)',
+            'Subgame-perfect Nash equilibrium (SPNE)', 'Perfect Bayesian equilibrium (PBE)',
+            'Dominant-strategy incentive compatibility', 'first_price', 'second_price',
+            'english', 'dutch', 'all_pay', 'Revenue Equivalence Theorem',
+            'winner\'s curse', 'Risk', 'Resale', 'collusion', 'seller shill',
+            'allocative efficiency', 'budget balance', 'Global leadership',
+            'AuctionNet', '10.3982/ECTA15925', 'STUDENT MODIFICATION CELL',
+        ]:
+            self.assertIn(marker, source)
+
     def test_ai_stress_test_preserves_human_verification(self):
         html = (ROOT / 'web/index.html').read_text()
         js = (ROOT / 'web/app.js').read_text()
@@ -111,8 +131,10 @@ class ThreeLensReleaseTests(unittest.TestCase):
     def test_release_manifest_tracks_new_student_artifacts(self):
         manifest = json.loads((ROOT / 'outputs/file_manifest.json').read_text())
         for relative in [
-            'web/index.html', 'web/styles.css', 'web/app.js', 'web/logic.js',
+            'web/index.html', 'web/styles.css', 'web/app.js', 'web/logic.js', 'web/auction-logic.js',
             'notebooks/school_choice/03_School_Choice_Three_Perspectives.ipynb',
+            'notebooks/auctions/04_Auction_Design_Three_Lenses.ipynb',
+            'docs/04_Auction_Design_Demo.md',
             'docs/DEPLOY_VERCEL.md', 'vercel.json',
         ]:
             payload = (ROOT / relative).read_bytes()

@@ -43,7 +43,7 @@ async function openPage(viewport, label) {
   const geometry = await page.evaluate(() => ({
     clientWidth: document.documentElement.clientWidth,
     scrollWidth: document.documentElement.scrollWidth,
-    clipped: [...document.querySelectorAll('.panel, .lens-strip article, .dimension-grid article, .persona-stage article, .handoff-grid article, .round-flow section')]
+    clipped: [...document.querySelectorAll('.panel, .lens-strip article, .auction-objectives article, .auction-three-lenses article, .auction-bidder, .dimension-grid article, .persona-stage article, .handoff-grid article, .round-flow section')]
       .filter((element) => element.scrollWidth > element.clientWidth + 2)
       .map((element) => `${element.tagName}.${element.className}`),
   }));
@@ -82,6 +82,21 @@ try {
   await desktop.locator('#solution-tab-nash').click();
   await desktop.locator('#trace-nash').click();
   if (!await desktop.locator('[data-payoff-cell="11"]').evaluate((element) => element.classList.contains('equilibrium-cell'))) errors.push('desktop: Nash best-response animation did not identify the equilibrium cell');
+
+  console.log('Browser QA: checking auction laboratory');
+  if (!await desktop.locator('#auction-definition').getByText(/Bayesian Nash equilibrium/).isVisible()) errors.push('desktop: first-price classification is missing BNE');
+  await desktop.locator('[data-auction-format="second-price"]').click();
+  if (!await desktop.locator('#auction-definition').getByText(/DSIC/).isVisible()) errors.push('desktop: second-price classification is missing DSIC');
+  if (!await desktop.locator('#auction-narrative').getByText(/Bidder 1 wins/).isVisible()) errors.push('desktop: auction allocation did not identify the winner');
+  if (!await desktop.locator('#auction-equilibrium-check').getByText(/zero realized unilateral regret/i).isVisible()) errors.push('desktop: truthful second-price diagnostic is missing');
+  await desktop.locator('#auction-behavior').selectOption('manual');
+  await desktop.locator('[data-auction-input="bid"][data-bidder="1"]').fill('1.10');
+  await desktop.locator('#run-auction').click();
+  if (!await desktop.locator('#auction-narrative').getByText(/Bidder 2 wins/).isVisible()) errors.push('desktop: manual auction bids did not change the winner');
+  await desktop.locator('#run-revenue-check').click();
+  if (await desktop.locator('.revenue-bar-row').count() !== 5) errors.push('desktop: revenue-equivalence comparison does not show five formats');
+  await desktop.locator('[data-auction-stress="common"]').click();
+  if (!await desktop.locator('#auction-stress-result').getByText(/Winner's curse/).isVisible()) errors.push('desktop: common-value stress test is missing');
 
   await desktop.locator('#abstract-input').fill('Allocation matters. We build a tool.');
   await desktop.locator('#check-abstract').click();
@@ -153,6 +168,17 @@ try {
     }
     checks.push({ label: `mobile-${lens}-lab`, viewport: { width: 390, height: 844 }, geometry: panelGeometry });
   }
+  const auctionGeometry = await mobile.locator('#auctions').evaluate((element) => ({
+    clientWidth: element.clientWidth,
+    scrollWidth: element.scrollWidth,
+    clipped: [...element.querySelectorAll('.auction-map, .auction-control-column, .auction-result-column, .auction-analysis-grid, .auction-resource-line')]
+      .filter((child) => child.scrollWidth > child.clientWidth + 2)
+      .map((child) => `${child.tagName}.${child.className}`),
+  }));
+  if (auctionGeometry.scrollWidth > auctionGeometry.clientWidth + 2 || auctionGeometry.clipped.length) {
+    errors.push(`mobile: auction lab overflow ${JSON.stringify(auctionGeometry)}`);
+  }
+  checks.push({ label: 'mobile-auction-lab', viewport: { width: 390, height: 844 }, geometry: auctionGeometry });
   await mobile.locator('#solution-tab-nash').click();
   console.log('Browser QA: capturing mobile');
   await mobile.evaluate(() => { document.activeElement?.blur(); window.scrollTo(0, 0); });

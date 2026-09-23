@@ -65,6 +65,18 @@
         "scrollWidth": 360,
         "clipped": []
       }
+    },
+    {
+      "label": "mobile-auction-lab",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "geometry": {
+        "clientWidth": 362,
+        "scrollWidth": 362,
+        "clipped": []
+      }
     }
   ],
   "errors": [],

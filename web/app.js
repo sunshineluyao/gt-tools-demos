@@ -10,6 +10,17 @@ import {
   solveSequentialEntry,
   validateAbstract,
 } from './logic.js';
+import {
+  benchmarkBids,
+  classifyAuction,
+  collusionDiagnostic,
+  formatMetric,
+  resaleDiagnostic,
+  revenueEquivalenceExperiment,
+  runAuction,
+  sellerCredibilityAudit,
+  winnerCurseDiagnostic,
+} from './auction-logic.js';
 
 const $ = (selector, context = document) => context.querySelector(selector);
 const $$ = (selector, context = document) => [...context.querySelectorAll(selector)];
@@ -305,6 +316,197 @@ $('#sample-harsanyi').addEventListener('click', () => {
 });
 $('#harsanyi-prior').addEventListener('input', () => solveHarsanyi(false));
 $$('.bayes-controls input').forEach((input) => input.addEventListener('input', () => solveHarsanyi(false)));
+
+const AUCTION_INITIAL_VALUES = [0.92, 0.73, 0.55, 0.31];
+const AUCTION_INITIAL_BIDS = [0.69, 0.55, 0.41, 0.23];
+const AUCTION_INITIAL_BUDGETS = [1.5, 1.5, 1.5, 1.5];
+
+function renderAuctionInputs(values = AUCTION_INITIAL_VALUES, bids = AUCTION_INITIAL_BIDS, budgets = AUCTION_INITIAL_BUDGETS) {
+  $('#auction-bidder-inputs').innerHTML = values.map((value, index) => `
+    <tr>
+      <td><strong>Bidder ${index + 1}</strong></td>
+      <td><input data-auction-input="value" data-bidder="${index}" type="number" min="0" max="2" step="0.01" value="${Number(value).toFixed(2)}" aria-label="Bidder ${index + 1} value or signal"></td>
+      <td><input data-auction-input="bid" data-bidder="${index}" type="number" min="0" max="2" step="0.01" value="${Number(bids[index]).toFixed(2)}" aria-label="Bidder ${index + 1} manual bid"></td>
+      <td><input data-auction-input="budget" data-bidder="${index}" type="number" min="0" max="2" step="0.01" value="${Number(budgets[index]).toFixed(2)}" aria-label="Bidder ${index + 1} budget cap"></td>
+    </tr>`).join('');
+}
+
+function auctionVector(kind) {
+  return $$(`[data-auction-input="${kind}"]`).map((input) => Number(input.value));
+}
+
+function updateAuctionControlState() {
+  const common = $('#auction-environment').value === 'common';
+  const manual = $('#auction-behavior').value === 'manual';
+  $('#auction-common-value').disabled = !common;
+  $('#auction-value-heading').textContent = common ? 'Private signal sᵢ' : 'Private value vᵢ';
+  $$('[data-auction-input="bid"]').forEach((input) => { input.disabled = !manual; });
+}
+
+function renderAuctionDefinition(format) {
+  const definition = classifyAuction(format);
+  $('#auction-definition').innerHTML = `
+    <div><b>Game class</b><span>${escapeHtml(definition.timing)}</span><small>${escapeHtml(definition.information)} · ${escapeHtml(definition.representation)}</small></div>
+    <div><b>Solution concept</b><span>${escapeHtml(definition.solution)}</span><small>${escapeHtml(definition.benchmark)}</small></div>
+    <div><b>Rule + intuition</b><span>${escapeHtml(definition.rule)}</span><small>${escapeHtml(definition.intuition)}</small></div>`;
+  $$('[data-auction-format]').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.auctionFormat === format)));
+  $('#auction-format-select').value = format;
+}
+
+function auctionProfile() {
+  const format = $('#auction-format-select').value;
+  const values = auctionVector('value');
+  const budgets = auctionVector('budget');
+  const riskAversion = Number($('#auction-risk').value);
+  const isCommon = $('#auction-environment').value === 'common';
+  let bids;
+  let strategyLabel;
+  if ($('#auction-behavior').value === 'manual') {
+    bids = auctionVector('bid');
+    strategyLabel = 'manual or observed bids';
+  } else if (isCommon) {
+    bids = [...values];
+    strategyLabel = 'signal-bidding heuristic (not an equilibrium claim)';
+  } else {
+    bids = benchmarkBids(values, format, { riskAversion });
+    strategyLabel = riskAversion > 0 && ['first-price', 'dutch'].includes(format)
+      ? `illustrative CRRA benchmark with ρ = ${riskAversion.toFixed(2)}`
+      : 'risk-neutral benchmark strategy';
+  }
+  return {
+    format,
+    values,
+    bids,
+    budgets,
+    reserve: Number($('#auction-reserve').value),
+    commonValue: isCommon ? Number($('#auction-common-value').value) : null,
+    strategyLabel,
+    isCommon,
+  };
+}
+
+function outcomeMetric(label, value, note) {
+  return `<article><b>${escapeHtml(label)}</b><span>${escapeHtml(String(value))}</span><small>${escapeHtml(note)}</small></article>`;
+}
+
+function renderAuctionOutcome() {
+  try {
+    const profile = auctionProfile();
+    const outcome = runAuction(profile);
+    const largest = Math.max(1, ...outcome.values, ...outcome.effectiveBids);
+    $('#auction-bidder-stage').innerHTML = outcome.values.map((value, index) => `
+      <article class="auction-bidder ${outcome.winner === index ? 'winner' : ''}">
+        <strong class="bidder-name">Bidder ${index + 1}</strong>
+        <span class="bidder-status">${outcome.winner === index ? 'WINNER' : outcome.sold ? 'LOSER' : 'NO SALE'}</span>
+        <div class="auction-meter" aria-hidden="true"><i class="value-bar" style="height:${Math.max(2, (value / largest) * 100)}%"></i><i class="bid-bar" style="height:${Math.max(2, (outcome.effectiveBids[index] / largest) * 100)}%"></i></div>
+        <dl><dt>${profile.isCommon ? 'Signal' : 'Value'}</dt><dd>${formatMetric(value)}</dd><dt>Bid</dt><dd>${formatMetric(outcome.effectiveBids[index])}</dd><dt>Payment</dt><dd>${formatMetric(outcome.payments[index])}</dd><dt>Utility</dt><dd>${formatMetric(outcome.utilities[index])}</dd></dl>
+      </article>`).join('');
+
+    const definition = classifyAuction(outcome.format);
+    const winnerText = outcome.sold ? `Bidder ${outcome.winner + 1}` : 'No bidder';
+    const payment = outcome.sold ? outcome.payments[outcome.winner] : 0;
+    $('#auction-narrative').innerHTML = `<strong>${escapeHtml(definition.shortName)} result.</strong> ${winnerText} ${outcome.sold ? `wins and the winner pays ${formatMetric(payment)}` : 'clears the reserve'}. The submitted profile uses ${escapeHtml(profile.strategyLabel)}. ${outcome.format === 'all-pay' ? `Losing bidders pay ${formatMetric(outcome.loserPayments)} in total.` : ''}`;
+    $('#auction-metrics').innerHTML = [
+      outcomeMetric('Seller revenue', formatMetric(outcome.revenue), 'Sum of payments'),
+      outcomeMetric('Allocative efficiency', `${formatMetric(outcome.allocativeEfficiency * 100, 1)}%`, 'Realized / feasible welfare'),
+      outcomeMetric('Winner', winnerText, outcome.winnerIsHighestValue ? 'Highest listed value' : 'Not highest listed value'),
+      outcomeMetric('Loser burden', formatMetric(outcome.loserPayments), 'Payments by non-winners'),
+      outcomeMetric('Ex-post IR', outcome.exPostIndividualRationality ? 'Pass' : 'Fails', 'No realized utility below zero'),
+      outcomeMetric('Budget balance', outcome.weakBudgetBalance ? 'Pass' : 'Fails', 'No mechanism deficit'),
+    ].join('');
+
+    const regret = outcome.maximumRegret;
+    let interpretation = 'Positive realized regret does not refute BNE: Bayesian equilibrium maximizes expected utility before rival types are known.';
+    if (outcome.format === 'second-price' && !profile.isCommon && $('#auction-behavior').value === 'benchmark') {
+      interpretation = regret < 1e-6
+        ? 'Truthful bidding has zero realized unilateral regret here, consistent with DSIC.'
+        : 'Check the private-value assumptions or constraints before interpreting the DSIC benchmark.';
+    } else if (outcome.format === 'english' && !profile.isCommon && $('#auction-behavior').value === 'benchmark') {
+      interpretation = 'The code implements the IPV outcome; PBE additionally requires sequentially rational stay/exit choices and beliefs along the price history.';
+    }
+    $('#auction-equilibrium-check').innerHTML = `<strong>Unilateral-deviation diagnostic:</strong> maximum ex-post regret = ${formatMetric(regret)}. ${escapeHtml(interpretation)}`;
+    $$('.auction-sequence span').forEach((step) => step.classList.add('active'));
+    return outcome;
+  } catch (error) {
+    $('#auction-narrative').textContent = error.message;
+    return null;
+  }
+}
+
+function loadAuctionBenchmark() {
+  const values = auctionVector('value');
+  const format = $('#auction-format-select').value;
+  const common = $('#auction-environment').value === 'common';
+  const bids = common ? values : benchmarkBids(values, format, { riskAversion: Number($('#auction-risk').value) });
+  $$('[data-auction-input="bid"]').forEach((input, index) => { input.value = bids[index].toFixed(3); });
+  $('#auction-behavior').value = common ? 'manual' : 'benchmark';
+  updateAuctionControlState();
+  renderAuctionOutcome();
+}
+
+function renderRevenueExperiment() {
+  const bidderCount = Number($('#revenue-bidders').value);
+  $('#revenue-bidders-output').textContent = String(bidderCount);
+  const result = revenueEquivalenceExperiment({ bidderCount, samples: 6000, seed: 206 });
+  const labels = { 'first-price': 'First price', 'second-price': 'Second price', english: 'English', dutch: 'Dutch', 'all-pay': 'All pay' };
+  $('#revenue-bars').innerHTML = Object.entries(result.estimates).map(([format, estimate]) => `
+    <div class="revenue-bar-row"><span>${labels[format]}</span><div class="revenue-bar-track" style="--theory-position:${result.theoreticalRevenue * 100}%"><i style="width:${Math.min(100, estimate * 100)}%"></i></div><strong>${estimate.toFixed(3)}</strong></div>`).join('');
+  const largestGap = Math.max(...Object.values(result.estimates).map((estimate) => Math.abs(estimate - result.theoreticalRevenue)));
+  $('#revenue-note').textContent = `Gold marker = theoretical E[R] = (n − 1)/(n + 1) = ${result.theoreticalRevenue.toFixed(3)}. Largest simulation gap: ${largestGap.toFixed(3)}. Equality is in expectation under the stated benchmark.`;
+}
+
+function renderAuctionStress(name) {
+  $$('[data-auction-stress]').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.auctionStress === name)));
+  const target = $('#auction-stress-result');
+  if (name === 'behavior') {
+    const values = [0.92, 0.73, 0.55, 0.31];
+    const observedBids = [0.91, 0.79, 0.42, 0.35];
+    const outcome = runAuction({ format: 'first-price', values, bids: observedBids });
+    target.innerHTML = `<h4>Bounded behavior is evidence—not an insult</h4><p>Manual bids depart from the BNE benchmark: Bidder 2 overbids value (${observedBids[1]} &gt; ${values[1]}), while maximum realized regret is <strong>${formatMetric(outcome.maximumRegret)}</strong>.</p><p>Possible explanations include risk, misunderstanding, learning, framing, social motives, or simple error. A classroom round can generate hypotheses; it cannot establish population-level causes.</p>`;
+  } else if (name === 'risk') {
+    const values = [0.92, 0.73, 0.55, 0.31];
+    const neutralBids = benchmarkBids(values, 'first-price');
+    const riskBids = benchmarkBids(values, 'first-price', { riskAversion: 0.6 });
+    const neutral = runAuction({ format: 'first-price', values, bids: neutralBids });
+    const risk = runAuction({ format: 'first-price', values, bids: riskBids });
+    target.innerHTML = `<h4>Risk aversion weakens revenue equivalence</h4><p>The illustrative CRRA benchmark raises the top first-price bid from <strong>${formatMetric(neutralBids[0])}</strong> to <strong>${formatMetric(riskBids[0])}</strong>; realized revenue changes from ${formatMetric(neutral.revenue)} to ${formatMetric(risk.revenue)} in this profile.</p><p>Re-derive the strategy for the chosen utility function. Do not transplant the risk-neutral formula unchanged.</p>`;
+  } else if (name === 'common') {
+    const diagnostic = winnerCurseDiagnostic({ signals: [0.90, 0.72, 0.63, 0.55], trueValue: 0.58 });
+    target.innerHTML = `<h4>Winner's curse under a common value</h4><p>Bidder ${diagnostic.winner + 1} has the highest signal (${formatMetric(diagnostic.winnerSignal)}) but the realized common value is ${formatMetric(diagnostic.trueValue)}. Paying ${formatMetric(diagnostic.payments[diagnostic.winner])} produces utility <strong>${formatMetric(diagnostic.winnerProfit)}</strong>.</p><p>Winning selects the most optimistic signal. Rational bidding must condition on that selection effect and beliefs—not simply bid the raw signal.</p>`;
+  } else if (name === 'resale') {
+    const values = [0.95, 0.80, 0.45, 0.25];
+    const outcome = runAuction({ format: 'first-price', values, bids: [0.50, 0.82, 0.33, 0.18] });
+    const resale = resaleDiagnostic(outcome, values, { transactionCost: 0.04 });
+    target.innerHTML = `<h4>Resale can repair—and reshape—the allocation</h4><p>The auction initially awards the item to Bidder ${outcome.winner + 1}; the highest value belongs to Bidder ${resale.finalOwner + 1}. A stylized resale at ${formatMetric(resale.resalePrice)} restores net welfare to ${formatMetric(resale.finalWelfare)} after transaction cost.</p><p><strong>Boundary:</strong> ${escapeHtml(resale.caution)} Anticipated bargaining power and delay can change the original bids and revenue.</p>`;
+  } else if (name === 'collusion') {
+    const diagnostic = collusionDiagnostic();
+    target.innerHTML = `<h4>Unilateral deviations do not test coalitions</h4><p>Coordinated bid suppression lowers seller revenue from <strong>${formatMetric(diagnostic.baseline.revenue)}</strong> to <strong>${formatMetric(diagnostic.collusive.revenue)}</strong> in this illustration.</p><ul>${diagnostic.redFlags.map((flag) => `<li>${escapeHtml(flag)}</li>`).join('')}</ul><p>${escapeHtml(diagnostic.caution)}</p>`;
+  } else {
+    const audit = sellerCredibilityAudit({ values: [0.92, 0.73, 0.55, 0.31], bids: [0.92, 0.73, 0.55, 0.31], shillBid: 0.85 });
+    target.innerHTML = `<h4>DSIC for bidders is not credibility for the seller</h4><p>The committed second-price payment is ${formatMetric(audit.officialPayment)}. An undisclosed shill bid raises the executed payment to <strong>${formatMetric(audit.executedPayment)}</strong>, an overcharge of ${formatMetric(audit.overcharge)}.</p><p>${escapeHtml(audit.reason)} Cryptographic commitments, independent logs, audits, and appeal rules address a different incentive problem from truthful bidder reporting.</p>`;
+  }
+}
+
+renderAuctionInputs();
+$$('[data-auction-format]').forEach((button) => button.addEventListener('click', () => {
+  renderAuctionDefinition(button.dataset.auctionFormat);
+  loadAuctionBenchmark();
+}));
+$('#auction-format-select').addEventListener('change', (event) => { renderAuctionDefinition(event.target.value); loadAuctionBenchmark(); });
+$('#auction-environment').addEventListener('change', () => { updateAuctionControlState(); loadAuctionBenchmark(); });
+$('#auction-behavior').addEventListener('change', () => { updateAuctionControlState(); renderAuctionOutcome(); });
+$('#auction-risk').addEventListener('input', () => { $('#auction-risk-output').textContent = Number($('#auction-risk').value).toFixed(2); if ($('#auction-behavior').value === 'benchmark') renderAuctionOutcome(); });
+$('#load-auction-benchmark').addEventListener('click', loadAuctionBenchmark);
+$('#run-auction').addEventListener('click', renderAuctionOutcome);
+$('#revenue-bidders').addEventListener('input', () => { $('#revenue-bidders-output').textContent = $('#revenue-bidders').value; });
+$('#run-revenue-check').addEventListener('click', renderRevenueExperiment);
+$$('[data-auction-stress]').forEach((button) => button.addEventListener('click', () => renderAuctionStress(button.dataset.auctionStress)));
+
+renderAuctionDefinition('first-price');
+updateAuctionControlState();
+renderAuctionOutcome();
+renderRevenueExperiment();
+renderAuctionStress('behavior');
 
 function checkAbstract() {
   const result = validateAbstract($('#abstract-input').value);

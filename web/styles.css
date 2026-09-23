@@ -169,6 +169,7 @@ main { position: relative; }
 .chapter-number { display: block; color: var(--cyan); font-family: Georgia, serif; font-size: 5rem; line-height: .9; }
 .chapter-number.violet, .violet-text { color: var(--violet); }
 .chapter-number.amber, .amber-text { color: var(--amber); }
+.chapter-number.green, .green-text { color: var(--green); }
 .chapter-kicker { display: block; margin-top: 10px; color: var(--cyan); font-size: .73rem; font-weight: 800; letter-spacing: .18em; }
 .chapter-heading h2 { max-width: 920px; font-size: clamp(2.6rem, 4.5vw, 4.5rem); }
 .chapter-heading > div:last-child > p:last-child { max-width: 760px; color: var(--muted); font-size: 1.04rem; }
@@ -333,6 +334,118 @@ textarea { resize: vertical; line-height: 1.5; }
 .type-token { fill: var(--amber); opacity: 0; filter: drop-shadow(0 0 7px rgba(255,204,102,.8)); transition: transform .85s cubic-bezier(.2,.75,.2,1), opacity .2s ease; }
 .type-token.to-tough { opacity: 1; transform: translate(-140px, 135px); }
 .type-token.to-weak { opacity: 1; transform: translate(140px, 135px); }
+
+.auction-chapter { --auction-accent: var(--green); }
+.auction-chapter .panel-label { color: var(--green); }
+.auction-spine { display: grid; grid-template-columns: 1fr 30px 1fr 30px 1fr 30px 1fr; align-items: stretch; margin: 0 0 22px 237px; }
+.auction-spine article { padding: 15px 17px; border: 1px solid var(--line); border-radius: 13px; background: rgba(10, 39, 45, .5); }
+.auction-spine article span, .auction-spine article strong, .auction-spine article small { display: block; }
+.auction-spine article span { color: var(--green); font-family: Georgia, serif; font-size: 1.15rem; }
+.auction-spine article strong { margin-top: 5px; font-size: .8rem; }
+.auction-spine article small { margin-top: 2px; color: var(--muted); font-size: .66rem; line-height: 1.32; }
+.auction-spine > i { align-self: center; color: var(--muted-2); text-align: center; font-style: normal; }
+
+.auction-map { overflow: hidden; padding: 29px 31px 31px; }
+.auction-map > header { display: grid; grid-template-columns: 1fr minmax(280px, 430px); gap: 30px; align-items: end; }
+.auction-map > header h3 { margin-bottom: 0; }
+.auction-map > header p { margin: 0; font-size: .8rem; }
+.auction-format-tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; margin-top: 22px; }
+.auction-format-tabs button { min-height: 66px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 11px; background: rgba(4,16,29,.48); color: var(--muted); font-size: .72rem; font-weight: 800; text-align: left; }
+.auction-format-tabs button span { display: block; margin-bottom: 4px; color: var(--green); font-family: Georgia, serif; font-size: 1rem; }
+.auction-format-tabs button[aria-pressed="true"] { border-color: rgba(94,230,172,.62); background: rgba(94,230,172,.1); color: var(--ink); box-shadow: inset 0 -2px var(--green); }
+.auction-definition { display: grid; grid-template-columns: .9fr .9fr 1.15fr; gap: 1px; overflow: hidden; margin-top: 9px; border: 1px solid var(--line); border-radius: 13px; background: var(--line); }
+.auction-definition > div { padding: 15px; background: rgba(7,25,43,.97); }
+.auction-definition b, .auction-definition span, .auction-definition small { display: block; }
+.auction-definition b { color: var(--green); font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; }
+.auction-definition span { margin-top: 5px; font-size: .79rem; font-weight: 750; }
+.auction-definition small { margin-top: 4px; color: var(--muted); font-size: .68rem; line-height: 1.42; }
+
+.auction-lab { display: grid; grid-template-columns: .9fr 1.1fr; gap: 1px; overflow: hidden; margin-top: 22px; background: var(--line); }
+.auction-control-column, .auction-result-column { min-width: 0; padding: 30px; background: rgba(10,29,50,.96); }
+.auction-control-column > p { font-size: .81rem; }
+.auction-control-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 18px; }
+.auction-control-grid label { padding: 9px; border: 1px solid var(--line); border-radius: 10px; background: rgba(4,16,29,.38); font-size: .64rem; }
+.auction-control-grid select, .auction-control-grid input { margin-top: 4px; padding: 8px; font-size: .72rem; }
+.auction-control-grid .risk-control { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; }
+.auction-control-grid .risk-control output { color: var(--green); font-weight: 850; }
+.auction-control-grid .risk-control input { grid-column: 1 / -1; padding: 0; accent-color: var(--green); }
+.auction-table-wrap { overflow-x: auto; margin-top: 11px; border: 1px solid var(--line); border-radius: 11px; }
+.auction-input-table { width: 100%; min-width: 470px; border-collapse: collapse; font-size: .67rem; }
+.auction-input-table th, .auction-input-table td { padding: 7px; border-bottom: 1px solid var(--line); text-align: center; }
+.auction-input-table th { background: rgba(94,230,172,.07); color: var(--green); font-size: .61rem; letter-spacing: .05em; text-transform: uppercase; }
+.auction-input-table th:first-child, .auction-input-table td:first-child { text-align: left; }
+.auction-input-table tbody tr:last-child td { border-bottom: 0; }
+.auction-input-table input { min-width: 74px; margin: 0; padding: 6px; text-align: center; }
+.auction-control-column .lab-action-row { margin-top: 4px; }
+.auction-control-column .lab-action-row button { flex: 1; }
+
+.auction-result-column { background: rgba(4,16,29,.66); }
+.auction-sequence { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; color: var(--muted-2); font-size: .59rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+.auction-sequence span { padding: 5px 7px; border: 1px solid var(--line); border-radius: 999px; }
+.auction-sequence span.active { border-color: var(--green); color: var(--green); animation: result-pop .5s ease-out; }
+.auction-bidder-stage { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; min-height: 200px; margin-top: 16px; align-items: end; }
+.auction-bidder { position: relative; min-width: 0; padding: 12px 10px 10px; border: 1px solid var(--line); border-radius: 13px; background: rgba(16,38,63,.72); text-align: center; transition: border-color .3s ease, transform .3s ease, background .3s ease; }
+.auction-bidder.winner { border-color: var(--green); background: rgba(94,230,172,.09); transform: translateY(-7px); box-shadow: 0 13px 30px rgba(0,0,0,.24); }
+.auction-bidder .bidder-name { display: block; font-size: .72rem; }
+.auction-bidder .bidder-status { display: block; min-height: 17px; color: var(--green); font-size: .59rem; font-weight: 800; }
+.auction-meter { position: relative; height: 106px; margin: 10px 13px; border-radius: 999px; background: linear-gradient(to top, rgba(53,212,255,.1), rgba(155,124,255,.05)); box-shadow: inset 0 0 0 1px var(--line); overflow: hidden; }
+.auction-meter .value-bar, .auction-meter .bid-bar { position: absolute; bottom: 0; width: 45%; border-radius: 999px 999px 0 0; transform-origin: bottom; animation: auction-rise .65s ease-out; }
+.auction-meter .value-bar { left: 4%; background: linear-gradient(to top, var(--cyan-deep), var(--cyan)); opacity: .55; }
+.auction-meter .bid-bar { right: 4%; background: linear-gradient(to top, #5d48bf, var(--violet)); }
+.auction-bidder dl { display: grid; grid-template-columns: 1fr auto; gap: 2px 5px; margin: 0; color: var(--muted); font-size: .59rem; text-align: left; }
+.auction-bidder dt, .auction-bidder dd { margin: 0; }
+.auction-bidder dd { color: var(--ink); font-variant-numeric: tabular-nums; }
+.auction-narrative { min-height: 62px; margin-top: 12px; padding: 12px 14px; border-left: 2px solid var(--green); background: rgba(94,230,172,.05); color: #cde8dc; font-size: .72rem; line-height: 1.48; }
+.auction-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-top: 10px; }
+.auction-metrics article { padding: 10px; border: 1px solid var(--line); border-radius: 9px; background: rgba(16,38,63,.54); }
+.auction-metrics b, .auction-metrics span, .auction-metrics small { display: block; }
+.auction-metrics b { color: var(--muted); font-size: .56rem; letter-spacing: .07em; text-transform: uppercase; }
+.auction-metrics span { margin-top: 3px; color: var(--green); font-family: Georgia, serif; font-size: 1.08rem; }
+.auction-metrics small { margin-top: 2px; color: var(--muted-2); font-size: .56rem; line-height: 1.25; }
+.auction-equilibrium-check { margin-top: 9px; padding: 10px 12px; border: 1px solid rgba(155,124,255,.25); border-radius: 9px; color: var(--muted); background: rgba(155,124,255,.05); font-size: .68rem; }
+.auction-equilibrium-check strong { color: var(--violet); }
+
+.auction-objectives { display: grid; grid-template-columns: repeat(6, 1fr); gap: 7px; margin: 15px 0 22px; }
+.auction-objectives article { min-height: 119px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: rgba(10,29,50,.72); }
+.auction-objectives b, .auction-objectives span, .auction-objectives small { display: block; }
+.auction-objectives b { color: var(--green); font-size: .61rem; letter-spacing: .08em; }
+.auction-objectives span { margin-top: 11px; font-size: .74rem; font-weight: 750; }
+.auction-objectives small { margin-top: 4px; color: var(--muted); font-size: .63rem; line-height: 1.35; }
+
+.auction-analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.revenue-panel, .stress-test-panel { padding: 29px; }
+.revenue-panel > p, .stress-test-panel > p { font-size: .8rem; }
+.revenue-panel > label { display: grid; grid-template-columns: 1fr auto; gap: 5px 12px; margin: 16px 0 12px; }
+.revenue-panel > label input { grid-column: 1 / -1; margin: 0; padding: 0; accent-color: var(--green); }
+.revenue-panel output { color: var(--green); font-weight: 850; }
+.revenue-bars { display: grid; gap: 7px; margin-top: 17px; }
+.revenue-bar-row { display: grid; grid-template-columns: 92px 1fr 56px; gap: 9px; align-items: center; font-size: .65rem; }
+.revenue-bar-row > span:first-child { color: var(--muted); }
+.revenue-bar-track { position: relative; height: 14px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.05); }
+.revenue-bar-track i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--cyan-deep), var(--green)); transform-origin: left; animation: auction-rise .6s ease-out; }
+.revenue-bar-track::after { content: ""; position: absolute; top: 0; bottom: 0; left: var(--theory-position, 50%); width: 1px; background: var(--amber); }
+.revenue-bar-row strong { color: var(--ink); text-align: right; font-variant-numeric: tabular-nums; }
+
+.stress-buttons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 17px 0 10px; }
+.stress-buttons button { min-height: 42px; padding: 8px; border: 1px solid var(--line); border-radius: 9px; background: rgba(4,16,29,.45); color: var(--muted); font-size: .65rem; font-weight: 800; }
+.stress-buttons button[aria-pressed="true"] { border-color: var(--coral); background: rgba(255,122,134,.08); color: var(--ink); }
+.auction-stress-result { min-height: 186px; padding: 14px; border: 1px solid rgba(255,122,134,.22); border-radius: 11px; background: rgba(255,122,134,.045); color: var(--muted); font-size: .72rem; line-height: 1.5; }
+.auction-stress-result h4 { margin: 0 0 7px; color: var(--coral); font-family: Georgia, serif; font-size: 1.1rem; }
+.auction-stress-result p { margin: 6px 0; font-size: .72rem; }
+.auction-stress-result strong { color: var(--ink); }
+.auction-stress-result ul { margin: 6px 0 0; padding-left: 18px; }
+
+.auction-three-lenses { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 22px; }
+.auction-three-lenses article { padding: 19px; border: 1px solid var(--line); border-radius: 13px; background: rgba(10,29,50,.68); }
+.auction-three-lenses b { color: var(--green); font-size: .62rem; letter-spacing: .09em; }
+.auction-three-lenses article:nth-child(2) b { color: var(--cyan); }
+.auction-three-lenses article:nth-child(3) b { color: var(--violet); }
+.auction-three-lenses article:nth-child(4) b { color: var(--amber); }
+.auction-three-lenses h3 { margin: 13px 0 6px; font-size: 1.04rem; }
+.auction-three-lenses p { margin: 0; color: var(--muted); font-size: .69rem; }
+.auction-resource-line { display: flex; justify-content: space-between; gap: 25px; align-items: center; margin-top: 13px; padding: 14px 17px; border-left: 2px solid var(--green); background: rgba(94,230,172,.045); }
+.auction-resource-line p { margin: 0; color: var(--muted); font-size: .72rem; }
+.auction-resource-line a { flex: none; font-size: .73rem; font-weight: 800; }
 
 .dimension-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 22px; }
 .dimension-grid article { min-height: 142px; padding: 15px; border: 1px solid var(--line); border-radius: 14px; background: rgba(15, 27, 57, .72); }
@@ -501,6 +614,7 @@ dialog h2 { margin-bottom: 20px; font-size: 2.2rem; }
 @keyframes edge-glow { to { filter: drop-shadow(0 0 6px rgba(94,230,172,.55)); } }
 @keyframes node-pulse { 50% { filter: drop-shadow(0 0 9px rgba(155,124,255,.65)); } }
 @keyframes type-pop { 45% { transform: translateY(-4px); } }
+@keyframes auction-rise { from { transform: scaleY(.05); opacity: .35; } to { transform: scaleY(1); opacity: 1; } }
 
 .reveal-enabled [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
 .reveal-enabled [data-reveal].revealed { opacity: 1; transform: none; }
@@ -520,8 +634,12 @@ dialog h2 { margin-bottom: 20px; font-size: 2.2rem; }
   .hero h1 { font-size: clamp(3.2rem, 11vw, 5.4rem); }
   .chapter-heading { grid-template-columns: 125px 1fr; gap: 24px; }
   .concept-rail { margin-left: 0; }
+  .auction-spine { margin-left: 0; }
   .lineage-note { margin-left: 149px; }
   .studio-grid, .matrix-lab, .dynamics-lab, .stress-panel { grid-template-columns: 1fr; }
+  .auction-lab, .auction-analysis-grid { grid-template-columns: 1fr; }
+  .auction-objectives { grid-template-columns: repeat(3, 1fr); }
+  .auction-three-lenses { grid-template-columns: repeat(2, 1fr); }
   .dimension-grid { grid-template-columns: repeat(4, 1fr); }
   .lineage { grid-template-columns: repeat(4, 1fr); gap: 8px; }
   .lineage i { display: none; }
@@ -548,10 +666,21 @@ dialog h2 { margin-bottom: 20px; font-size: 2.2rem; }
   .chapter-number { font-size: 3.5rem; }
   .chapter-heading h2 { font-size: 2.65rem; }
   .concept-rail { grid-template-columns: 1fr; gap: 8px; }
+  .auction-spine { grid-template-columns: 1fr 1fr; gap: 7px; }
+  .auction-spine > i { display: none; }
   .lineage-note { margin: -15px 0 13px; }
   .concept-rail i { display: none; }
   .concept-rail article { border-radius: 12px !important; }
   .instruction-panel, .interactive-panel, .case-panel, .abstract-panel, .stress-panel, .matrix-lab, .dynamics-lab, .mechanism-lab { padding: 21px; }
+  .auction-map, .auction-control-column, .auction-result-column, .revenue-panel, .stress-test-panel { padding: 21px; }
+  .auction-map > header { grid-template-columns: 1fr; gap: 5px; }
+  .auction-format-tabs { grid-template-columns: repeat(2, 1fr); }
+  .auction-definition { grid-template-columns: 1fr; }
+  .auction-control-grid { grid-template-columns: 1fr 1fr; }
+  .auction-bidder-stage { grid-template-columns: 1fr 1fr; }
+  .auction-objectives { grid-template-columns: 1fr 1fr; }
+  .auction-three-lenses { grid-template-columns: 1fr; }
+  .auction-resource-line { align-items: flex-start; flex-direction: column; }
   .strategic-lab-head { padding: 21px 21px 16px; }
   .solution-tabs { grid-template-columns: 1fr; padding: 0 21px; }
   .solution-tabs button { grid-template-columns: 30px 1fr; }

@@ -6,13 +6,13 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const source = path.join(root, 'web');
 const destination = path.join(root, 'dist');
 
-const required = ['index.html', 'styles.css', 'logic.js', 'app.js'];
+const required = ['index.html', 'styles.css', 'logic.js', 'auction-logic.js', 'app.js'];
 for (const name of required) {
   await readFile(path.join(source, name), 'utf8');
 }
 
 const html = await readFile(path.join(source, 'index.html'), 'utf8');
-for (const marker of ['Strategic Thinking', 'Interdisciplinary Contribution', 'Three Research Personas']) {
+for (const marker of ['Strategic Thinking', 'Auctions and Digital Markets', 'Interdisciplinary Contribution', 'Three Research Personas']) {
   if (!html.includes(marker)) throw new Error(`Missing tutorial marker: ${marker}`);
 }
 

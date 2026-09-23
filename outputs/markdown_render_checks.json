@@ -1,5 +1,5 @@
 {
-  "math_expressions": 87,
+  "math_expressions": 118,
   "mermaid_diagrams": 3,
   "status": "passed",
   "method": "KaTeX strict typesetting, Markdown-sensitive superscript guard, and Mermaid parser; browser check reported separately",
